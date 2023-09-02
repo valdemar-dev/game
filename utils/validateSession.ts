@@ -1,7 +1,10 @@
 import prisma from "./prismaClient";
-export default async function validateSession(sessionId: string) {
+
+export default async function validateSession(sessionId: string | undefined) {
     const session = await prisma.session.findUnique({
-        id: sessionId,
+        where: {
+            id: sessionId,
+        }
     }) || null;
 
     if (!session) {
@@ -10,6 +13,7 @@ export default async function validateSession(sessionId: string) {
                 status: 422,
             }),
             code: 422,
+            userId: null,
         }
     }
 
@@ -18,5 +22,6 @@ export default async function validateSession(sessionId: string) {
             status: 200,
         }),
         code: 200,
+        userId: session.userId,
     }
 }
