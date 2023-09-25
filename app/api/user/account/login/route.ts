@@ -14,14 +14,14 @@ export async function POST(request: NextRequest) {
         });
     }
 
-    if (
-        await prisma.user.findUnique({
-            where: {
-                username: req.username,
-                password: req.password,
-            },
-        }) === null
-    ) {
+    const user = await prisma.user.findUnique({
+        where: {
+            username: req.username,
+            password: req.password,
+        },
+    }) || null;
+
+    if (!user) {
         return new Response("Incorrect login details.", {
             status: 401,
         });
@@ -29,8 +29,15 @@ export async function POST(request: NextRequest) {
 
     const sessionId = crypto.randomUUID();
 
+    await prisma.session.create({
+        data: {
+            userId: user.id,
+            id: sessionId,
+        },
+    });
+
     const cookieStore = cookies();
-    cookieStore.set({name: "sessionId", value: sessionId, secure: true, httpOnly: true, });
+    cookieStore.set({name: "sessionId", value: sessionId, });
 
     return new Response(
         JSON.stringify({ text: "Login complete!", })

@@ -2,16 +2,86 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Handjet&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 body {
   height: 100vh;
   width: 100vw;
-  background-color: rgb(47, 50, 58);
   color: white;
+  background-color: #0c0c0c;
+  background-repeat: repeat;
+  overflow-x: clip;
+  overflow-y: clip;
+
+  background-image: url("/tiles/bg.png");
+  aspect-ratio: 16/9;
+  background-size: 100% 100%;
 }
 
 .main {
   width: 100%;
   height: 100%;
+}
+
+.card {
+  transition-delay: 500ms;
+}
+
+.card h2 {
+  opacity: 0%;
+  transform: rotateX(60deg);
+  transform-origin:bottom;
+  transition-duration: 150ms;
+  transition-delay: 100ms;
+}
+
+.card:active h2 {
+  opacity: 100%;
+  z-index: 1000;
+  transform: rotateX(0deg) translateY(-10px) scale(1.1);
+  text-shadow: 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.chronoCard {
+  transition-delay: 100ms;
+  aspect-ratio: 28 / 49;
+  background-size: contain;
+  background-image: url("/tiles/chronocard.png");
+
+  transform-origin: bottom;
+  transform: rotateX(-60deg);
+  transition-timing-function:ease;
+  transition-duration: 150ms;
+}
+
+.card:active .chronoCard {
+  z-index: 1000;
+  transform: rotateX(0deg) scale(1.1);
+}
+
+.card::before {
+  transition-delay: 100ms;
+  position: absolute;
+  z-index: -10;
+  bottom: 20%;
+  width: 100%;
+  height: 70%;
+  content: "";
+  background-color: rgba(0,0,0,0);
+  box-shadow: 0px 5px 0px 1px rgba(0,0,0,0.1w);
+  transition-duration: 150ms;
+}
+
+.card:active::before {
+  background-color: rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 0px 8px rgba(0,0,0,0.2);
+}
+
+.cardTable {
+  transform-origin: top;
+  transform: rotateX(60deg) translateX(-50%) translateY(-50%);
 }
 
 .animateCharacter {
@@ -30,8 +100,9 @@ body {
 }
 
 dialog {
-  background-color: rgb(0,0,0);
+  background-color: #352b42;
   color: white;
+  outline: 0px;
 }
 
 @keyframes characterAnimation {
@@ -45,5 +116,202 @@ dialog {
 
   100% {
     background-color: rgba(255,255,255,0.15);
+  }
+}
+
+.characterSprite {
+  aspect-ratio: 36 / 59;
+  background-size: contain;
+  background-image: url("/tiles/card.png");
+}
+
+.vortexiaCard {
+  aspect-ratio: 36 / 59;
+  background-size:contain;
+  background-image: url("/tiles/vortexiaCard.png");
+}
+
+.button {
+  aspect-ratio: 34 / 17;
+  box-sizing: border-box;
+  padding-right: 5px;
+  padding-bottom: 2px;
+  color: black;
+  background-size: contain;
+  background-image: url("/tiles/button.png");
+}
+
+.player {
+  aspect-ratio: 80 / 32;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("/tiles/playertile.png");
+}
+
+.tablet {
+  aspect-ratio: 33 / 49;
+  background-size: contain;
+  background-image: url("/tiles/tablet.gif");
+}
+
+.movetile {
+  aspect-ratio: 32 / 51;
+  background-image: url("/tiles/movetile.png"); 
+  background-size: contain;
+}
+
+.slideInLeft {
+  animation-name: slideInLeft;
+  animation-duration: 250ms;
+  animation-timing-function: ease;
+}
+
+.slideOutLeft {
+  animation-name: slideOutLeft;
+  animation-duration: 250ms;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+
+.slideUp {
+  animation-name: slideUp;
+  animation-duration: 500ms;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+  display: flex;
+  flex-direction: column;
+  text-wrap:wrap;
+}
+
+.slideDown {
+  animation-name: slideDown;
+  animation-duration: 500ms;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+
+@keyframes slideUp {
+  from {
+    display: none;
+    opacity: 0%;
+    transform: translateY(0%) translateX(-50%);
+  }
+
+  to {
+    opacity: 100%;
+    transform: translateY(-50%) translateX(-50%);    
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 100%;
+    transform: translateY(-50%) translateX(-50%);    
+  }
+  
+  to {
+    opacity: 0%;
+    transform: translateY(0%) translateX(-50%);
+    display: none;
+  }
+}
+
+@keyframes slideInLeft {
+  from{
+    transform: translateY(-50%) translateX(100%);
+  }
+
+  to {
+    transform: translateY(-50%) translateX(0%);
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateY(-50%) translateX(0%);
+  }
+
+  to {
+    transform: translateY(-50%) translateX(100%);
+  }
+}
+
+.turnClockRotatePlayer {
+  animation-name: turnClockRotatePlayer;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+
+.turnClockRotateCPU {
+  animation-name: turnClockRotateCPU;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+
+@keyframes turnClockRotatePlayer {
+  from {
+    rotate: 0deg;
+  }
+
+  to {
+    rotate: 180deg;    
+  }
+}
+
+@keyframes turnClockRotateCPU {
+  from {
+    rotate: 180deg;
+  }
+
+  to {
+    rotate: 360deg;
+  }
+}
+
+.info {
+  background-color: rgba(58, 56, 138, 0.219);
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.slideInTop {
+  animation-name: slideInTop;
+  animation-duration: 250ms;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+  display: flex;
+}
+
+.slideOutTop {
+  animation-name: slideOutTop;
+  animation-duration: 200ms;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+  display: flex;
+}
+
+@keyframes slideInTop {
+  from {
+    opacity: 0%;
+    transform: translateY(-100%);
+  }
+
+  to {
+    opacity: 100%;
+    transform: translateY(0%);
+  }
+}
+
+@keyframes slideOutTop {
+  from {
+    opacity: 100%;
+    transform: translateY(0%);
+  }
+  
+  to {
+    opacity: 0%;
+    transform: translateY(-100%);
   }
 }

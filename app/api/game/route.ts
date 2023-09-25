@@ -2,7 +2,6 @@ import validateRequest from "@/utils/validateRequest";
 import validateSession from "@/utils/validateSession";
 import { NextRequest } from "next/server";
 import prisma from "@/utils/prismaClient";
-import characterListData from "@/../lib/characters.json";
 import gameManager from "@/../lib/gameManager";
 
 export async function POST(request: NextRequest) {
@@ -61,24 +60,28 @@ export async function POST(request: NextRequest) {
             status: 404,
         });
     }
-    
-    let isDeckValid: boolean = true;
-    
-    deckArray.forEach((character: string) => {
-        const characterInList = userCharacters.find((c: any) => c.characterId === character);
 
-        if (!characterInList) {
-            isDeckValid = false;
-        }
-    })
+    let isDeckValid = true;
+    
+    const deck:Array<any> = [];
 
-    if (!isDeckValid) {
-        return new Response("Invalid deck!")
+    deckArray.forEach((characterId: any) => {
+        const characterInDb = userCharacters.find((character: any) => character.characterId === characterId);
+
+        if (!characterInDb) return isDeckValid = false;
+
+        deck.push(characterInDb);
+    });
+
+    if (!isDeckValid) { 
+        return new Response("Invalid deck", {
+            status: 422,
+        });
     }
 
     const data = {
         playerId: sessionValidator.userId,
-        deck: deckArray,
+        deck: deck,
     };
 
     const options = {

@@ -150,6 +150,13 @@ export default function App() {
             <div>
                 <button onClick={async () => {await fight()}} className="text-2xl">FIGHT</button>
             </div>
+
+            <dialog open>
+                <p>This website uses sound.</p>
+                <form method="dialog">
+                    <button>OK</button>
+                </form>
+            </dialog>
         </main>
     )
 }

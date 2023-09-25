@@ -10,15 +10,20 @@ const characterList: CharacterList = characterListData;
 interface Character {
     name: string;
     description: string;
-    attack: number;
-    defence: number;
+    baseAttack: number;
+    baseDefence: number;
+    baseHealth: number;
     moves: string[];
-}
+};
 
 interface ExtendedCharacter extends Character {
     exp: number;
+    health: number;
+    defence: number;
+    attack: number;
+    level: number;
     id: string;
-}
+};
 
 interface CharacterList {
     [key: string]: Character;
@@ -47,6 +52,10 @@ export async function GET(request: NextRequest) {
         const characterInList: ExtendedCharacter = {
             ...characterList[character.characterId],
             exp: character.exp,
+            health: character.health,
+            attack: character.attack,
+            defence: character.defence,
+            level: character.level,
             id: character.characterId,
         };
         
